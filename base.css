@@ -9,8 +9,23 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #2A7B9B;
-    background: linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 93%, rgba(21, 232, 109, 1) 100%);
+    background: rgb(10, 7, 51);
+    height: 100px;
+}
+
+body {
+    background: linear-gradient(90deg,rgba(0, 4, 255) 0%, rgba(201, 137, 43) 93%, rgb(224, 146, 27) 99%);
+    height: 300px;
+} 
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 200px;
+    gap: 20px;
+    color: white;
 }
 
 h1 {
