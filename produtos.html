@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Lista de Produtos</h1>
+<ul>
+    {% for produto in produtos %}
+        <li>
+            {{ produto.nome }} - R$ {{ produto.preco }}
+            <a href="{{ url_for('adicionar_carrinho', produto_id=produto.id) }}">Adicionar ao Carrinho</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('carrinho') }}">Ver Carrinho</a>
+{% endblock %}
