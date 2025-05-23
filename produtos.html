@@ -10,5 +10,13 @@
         </li>
     {% endfor %}
 </ul>
+<a href="{{ url_for('esvaziar_carrinho')}}">Esvaziar Carrinho</a>
+
+{% if session['carrinho'] == [] %}
+<p>Carrinho Vazio</p>
+{% else %}
+<p></p>
+{% endif %}
+
 <a href="{{ url_for('carrinho') }}">Ver Carrinho</a>
 {% endblock %}
