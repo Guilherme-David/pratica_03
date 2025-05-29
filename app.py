@@ -1,4 +1,5 @@
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, url_for, make_response
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -9,6 +10,9 @@ usuarios_cadastrados = {}
 # Página Inicial
 @app.route('/')
 def index():
+    if 'nome' in request.cookies:
+        nome = request.cookies.get('nome')
+        return render_template('index.html', nome=nome)
     return render_template('index.html')
 
 # Sessão de Cadastro, Login e Logout
@@ -17,9 +21,12 @@ def register():
     if request.method == 'POST':
         nome = request.form.get('nome')
         senha = request.form.get('senha')
+        session['carrinho'] = []
+
+        hash_senha = generate_password_hash(senha)
 
         if nome not in usuarios_cadastrados:
-            usuarios_cadastrados[nome] = senha
+            usuarios_cadastrados[nome] = hash_senha
             return redirect(url_for('login'))
         
     return render_template('cadastro.html')
@@ -30,26 +37,36 @@ def login():
         nome = request.form.get('nome')
         senha = request.form.get('senha')
 
-        for usuario in usuarios_cadastrados:
-            if usuario == nome and usuarios_cadastrados[usuario] == senha:
-                # logar o usuário
-                session['usuario'] = nome
-                session['password'] = senha
-                return redirect(url_for('produtos'))
+        redirecionar = redirect(url_for('produtos'))
+        response = make_response(redirecionar)
+        response.set_cookie('nome', nome)
+
+        if nome in usuarios_cadastrados.keys() and check_password_hash(usuarios_cadastrados[usuario], senha):
+            # logar o usuário
+            session['usuario'] = nome
+            session['password'] = senha
+            return response
 
     return render_template('login.html')
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout')
 def logout():
-    session.pop('usuario')
-    return redirect(url_for('index'))
+    if 'nome' in request.cookies:
+        redirecionar = redirect(url_for('index'))
+        response = make_response(redirecionar)
+        response.delete_cookie('nome')
+    else:
+        response = make_response(redirect(url_for('index')))
+    if 'usuario' in session:
+        session.pop('usuario')
+    return response
 
 # Processo de Produtos e Carrinho
 @app.route('/produtos', methods=['GET'])
 def produtos():
     if 'usuario' not in session:
         return redirect(url_for('login'))
-            
+    
     return render_template('produtos.html', produtos=get_produtos())
 
 def get_produtos():
