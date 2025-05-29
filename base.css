@@ -11,7 +11,13 @@ header {
     align-items: center;
     background: rgb(10, 7, 51);
     height: 100px;
+    flex-direction: column;
 }
+
+header a {
+    background-color: transparent;
+}
+
 
 body {
     background: linear-gradient(90deg,rgba(0, 4, 255) 0%, rgba(201, 137, 43) 93%, rgb(224, 146, 27) 99%);
@@ -42,4 +48,19 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+header ul {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    list-style-type: none;
+    width: 100%;
+    background-color: rgb(65, 52, 241);
+    position: relative;
+    top: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 5px;
 }
