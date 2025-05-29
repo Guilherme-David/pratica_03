@@ -57,8 +57,7 @@ def logout():
         response.delete_cookie('nome')
     else:
         response = make_response(redirect(url_for('index')))
-    if 'usuario' in session:
-        session.pop('usuario')
+    session.pop('usuario')
     return response
 
 # Processo de Produtos e Carrinho
