@@ -12,6 +12,12 @@
         {% endfor %}
     </ul>
     <p><strong>Total:</strong> R$ {{ carrinho | map(attribute='preco') | sum }}</p>
+
+    <form action="{{ url_for('fechar_compra') }}" method="POST">
+        <button type="submit">Finalizar Compra</button>
+    </form>
+
+    <a href="{{ url_for('esvaziar_carrinho') }}">Esvaziar Carrinho</a>
 {% else %}
     <p>O carrinho está vazio.</p>
 {% endif %}
